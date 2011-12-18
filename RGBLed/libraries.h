@@ -13,42 +13,39 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef EffectRideau_h
-#define EffectRideau_h
+#ifndef Libraries_h
+#define Libraries_h
 
 #include <TrueRandom.h>
 
 #include "WProgram.h"
 #include "Led.h"
-#include "Effect.h"
-#include "libraries.h"
 
-class EffectRideau : 
-public Effect {
-public:
-  inline EffectRideau() { /* nothing*/ };
+#define ON  1
+#define OFF 0
 
-  void init();
-  void init(Led leds[ledCount]);
-  void init(byte preset);
-  void run();
-  void runDemo();
+//#define MAX_LED_COLOR 255
+#define HSV_DEFINITION 360
 
-private:
+boolean getGlobalStatus ();
 
-  byte startPoint;
-  void run_single();
-  void run_double();
+void setStatus (boolean ledStatus);
+boolean getStatus ();
 
-  double color[ledColors];
+void setStatusOn ();
+void setStatusOff ();
 
-  boolean onOff;
-  byte presets;
+void setColor(const double fromColor[ledColors], double toColor[ledColors]);
 
-  byte trainee;
+void setColorAll(Led leds[ledCount], const double couleur[ledColors]);
+void setPuissanceAll(Led leds[ledCount], const byte puissance);
 
-  void nextPreset();
-};
+void setColorRainbow(Led leds[ledCount], double salt = 0.0);
+void render(Led leds[ledCount]);
+
+void getRandomColor(double randColor[ledColors]);
+
+void printColor(const t_rgbColor color);
+void printColor(const double color[ledColors]);
+
 #endif
-
-

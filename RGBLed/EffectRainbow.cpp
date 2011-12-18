@@ -16,6 +16,10 @@
 #include "WProgram.h"
 #include "EffectRainbow.h"
 
+EffectRainbow::EffectRainbow(Led leds[ledCount]) {
+  Effect::storeLeds(leds);
+}
+
 void EffectRainbow::init(Led leds[ledCount]) {
   Effect::storeLeds(leds);
 }

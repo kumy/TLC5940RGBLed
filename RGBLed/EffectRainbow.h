@@ -17,17 +17,15 @@
 #define EffectRainbow_h
 
 #include "WProgram.h"
-#include "Led.h"
-#include "libraries.h"
-#include "config.h"
-#include "Effect.h"
-#include "constants.h"
+#include <Led.h>
+#include <Effect.h>
+#include <libraries.h>
 
 class EffectRainbow : 
 public Effect {
 public:
-  inline EffectRainbow() { /* nothing*/
-  };
+  inline EffectRainbow() { /* nothing*/ };
+  EffectRainbow(Led leds[ledCount]);
 
   void init();
   void init(Led leds[ledCount]);

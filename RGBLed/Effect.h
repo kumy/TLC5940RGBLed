@@ -17,15 +17,13 @@
 #define Effect_h
 
 #include "WProgram.h"
-#include "config.h"
 #include "Led.h"
-#include "libraries.h"
 
 class Effect {
   public:
         
-    inline Effect() { /*nothing*/ };
-    //inline Effect(Led leds[ledCount]) { storeLeds(leds); };
+    inline Effect() {};
+    inline Effect(Led leds[ledCount]) { storeLeds(leds); };
     
     void inline init() { /*nothing*/ };
     

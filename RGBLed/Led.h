@@ -23,6 +23,7 @@
 
 // Set this to the number of color of each strip
 #define ledColors 3
+#define ledCount 15
 
 #define RED   0
 #define GREEN 0.66
