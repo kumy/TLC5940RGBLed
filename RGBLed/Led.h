@@ -25,6 +25,9 @@
 #define ledColors 3
 #define ledCount 15
 
+#define COMMON_ANODE
+//#define DEBUG
+
 #define RED   0
 #define GREEN 0.66
 #define BLUE  0.33

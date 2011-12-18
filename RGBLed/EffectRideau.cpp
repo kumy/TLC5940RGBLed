@@ -16,11 +16,10 @@
 #include "WProgram.h"
 #include "EffectRideau.h"
 
-void EffectRideau::init(Led leds[ledCount]) {
+EffectRideau::EffectRideau(Led leds[ledCount]) {
   Effect::storeLeds(leds);
   EffectRideau::presets = 0;
   EffectRideau::onOff = TRUE;
-
 }
 
 void EffectRideau::init(byte preset) {

@@ -27,9 +27,9 @@ class EffectRideau :
 public Effect {
 public:
   inline EffectRideau() { /* nothing*/ };
+  EffectRideau(Led leds[ledCount]);
 
   void init();
-  void init(Led leds[ledCount]);
   void init(byte preset);
   void run();
   void runDemo();
