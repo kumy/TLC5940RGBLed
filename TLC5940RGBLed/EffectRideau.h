@@ -13,39 +13,42 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef Effect_h
-#define Effect_h
+#ifndef EffectRideau_h
+#define EffectRideau_h
 
 #include "WProgram.h"
+#include "TrueRandom.h"
+
 #include "Led.h"
+#include "Effect.h"
+#include "libraries.h"
 
-class Effect {
-  public:
-        
-    inline Effect() {};
-    inline Effect(Led leds[ledCount]) { storeLeds(leds); };
-    
-    void inline init() { /*nothing*/ };
-    
-    void setSpeed(unsigned long speed);
-    void setPause(unsigned long pause);
-    
-    boolean isEnded();
-    
-  protected:
-    unsigned long lastTime;
-    unsigned long totalTime;
-    unsigned long speed;
-    unsigned long pause;
-    boolean effectEnded;
-    byte step;
-    Led *_leds;
-    
-    void storeLeds(Led leds[ledCount]);
-    inline boolean timeToRun(unsigned long speed) { return !Effect::lastTime || micros() - Effect::lastTime >= speed; };
-    
-    void print (const char* txt);
-  
+class EffectRideau : 
+public Effect {
+public:
+  inline EffectRideau() { /* nothing*/ };
+  EffectRideau(Led leds[LED_COUNT]);
+
+  void init();
+  void init(byte preset);
+  void run();
+  void runDemo();
+
+private:
+
+  byte startPoint;
+  void run_single();
+  void run_double();
+
+  double color[LED_COLORS];
+
+  boolean onOff;
+  byte presets;
+
+  byte trainee;
+
+  void nextPreset();
 };
-
 #endif
+
+

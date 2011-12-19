@@ -27,17 +27,17 @@ void Led::init () {
 }
 
 void Led::init (byte ledNumber) {
-  for (byte i = 0; i < ledColors; ++i) {
-    Led::_pins[i] = ledNumber * ledColors + i;
+  for (byte i = 0; i < LED_COLORS; ++i) {
+    Led::_pins[i] = ledNumber * LED_COLORS + i;
   }
   Led::init();
 }
 
-void Led::setColor(const double hsv[ledColors]) {
+void Led::setColor(const double hsv[LED_COLORS]) {
   Led::setColor(hsv, 0);
 }
 
-void Led::setColor(const double hsv[ledColors], unsigned long timeChange) {
+void Led::setColor(const double hsv[LED_COLORS], unsigned long timeChange) {
   hsvToRgb(Led::_hsv, Led::fromColor);
   hsvToRgb(hsv,       Led::toColor);
 
@@ -105,7 +105,7 @@ double* Led::getColor() {
   return Led::_hsv;
 }
 
-void Led::hsvToRgb(const double hsv[ledColors], t_rgbColor& rgb) {
+void Led::hsvToRgb(const double hsv[LED_COLORS], t_rgbColor& rgb) {
   byte rgbArray[3];
   Led::_converter.hsvToRgb(hsv[0], hsv[1], hsv[2], rgbArray);
   rgb.red   = rgbArray[0];
@@ -120,27 +120,19 @@ void Led::rgbToHsv(const t_rgbColor rgb, double hsv[]) {
 void Led::show () {
 
   Led::hsvToRgb();
-//#ifdef DEBUG
-//  Led::printPins(Led::_pins[0], Led::_rgb.green, Led::_puissance);
-//  Led::printPins(Led::_pins[1], Led::_rgb.blue , Led::_puissance);
-//  Led::printPins(Led::_pins[2], Led::_rgb.red  , Led::_puissance);
-//  Serial.println("--------------------");
-//#endif
 
-//if (Led::_pins[0] >= 27 && Led::_pins[0] <= 33) {
 #ifdef COMMON_ANODE
   Tlc.set((int) Led::_pins[0], Led::_rgb.green * Led::_puissance);
   Tlc.set((int) Led::_pins[1], Led::_rgb.blue  * Led::_puissance);
   Tlc.set((int) Led::_pins[2], Led::_rgb.red   * Led::_puissance);
 #endif
-//} else {
 #ifndef COMMON_ANODE
   Tlc.set((int) Led::_pins[0], 4095 - (Led::_rgb.green * Led::_puissance) - 1);
   Tlc.set((int) Led::_pins[1], 4095 - (Led::_rgb.blue  * Led::_puissance) - 1);
   Tlc.set((int) Led::_pins[2], 4095 - (Led::_rgb.red   * Led::_puissance) - 1);
 #endif
-//}
 }
+
 void Led::printPins (byte pin, byte color, int puissance) {
 #ifdef DEBUG
   Serial.print("set pin ");

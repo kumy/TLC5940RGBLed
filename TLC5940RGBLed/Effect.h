@@ -13,39 +13,39 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef Libraries_h
-#define Libraries_h
-
-#include <TrueRandom.h>
+#ifndef Effect_h
+#define Effect_h
 
 #include "WProgram.h"
 #include "Led.h"
 
-#define ON  1
-#define OFF 0
-
-//#define MAX_LED_COLOR 255
-#define HSV_DEFINITION 360
-
-boolean getGlobalStatus ();
-
-void setStatus (boolean ledStatus);
-boolean getStatus ();
-
-void setStatusOn ();
-void setStatusOff ();
-
-void setColor(const double fromColor[ledColors], double toColor[ledColors]);
-
-void setColorAll(Led leds[ledCount], const double couleur[ledColors]);
-void setPuissanceAll(Led leds[ledCount], const byte puissance);
-
-void setColorRainbow(Led leds[ledCount], double salt = 0.0);
-void render(Led leds[ledCount]);
-
-void getRandomColor(double randColor[ledColors]);
-
-void printColor(const t_rgbColor color);
-void printColor(const double color[ledColors]);
+class Effect {
+  public:
+        
+    inline Effect() {};
+    inline Effect(Led leds[LED_COUNT]) { storeLeds(leds); };
+    
+    void inline init() { /*nothing*/ };
+    
+    void setSpeed(unsigned long speed);
+    void setPause(unsigned long pause);
+    
+    boolean isEnded();
+    
+  protected:
+    unsigned long lastTime;
+    unsigned long totalTime;
+    unsigned long speed;
+    unsigned long pause;
+    boolean effectEnded;
+    byte step;
+    Led *_leds;
+    
+    void storeLeds(Led leds[LED_COUNT]);
+    inline boolean timeToRun(unsigned long speed) { return !Effect::lastTime || micros() - Effect::lastTime >= speed; };
+    
+    void print (const char* txt);
+  
+};
 
 #endif

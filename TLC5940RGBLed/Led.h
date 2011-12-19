@@ -16,16 +16,20 @@
 #ifndef Led_h
 #define Led_h
 
-#include <Tlc5940.h>
-#include <RGBConverter.h>
-
 #include "WProgram.h"
 
-// Set this to the number of color of each strip
-#define ledColors 3
-#define ledCount 15
+#include "Tlc5940.h"
+#include "RGBConverter.h"
 
+// Set this to the number of color of each strip
+#define LED_COLORS 3
+
+// Set this to the number of individual RGB Led
+#define LED_COUNT 15
+
+// comment/uncomment acording to you're led type
 #define COMMON_ANODE
+
 //#define DEBUG
 
 #define RED   0
@@ -65,20 +69,28 @@ class Led {
     void init ();
     void init (byte ledNumber);
     
-    void setColor (const double hsv[ledColors]);
-    void setColor (const double hsv[ledColors], unsigned long timeChange);
-    void setPuissance(const byte puissance);
+    void setColor (const double hsv[LED_COLORS]);
+    void setColor (const double hsv[LED_COLORS], unsigned long timeChange);
+
+    double* getColor();
     
+    void setPuissance(const byte puissance);
     
     void upColor   (const double   upStep);
     void downColor (const double downStep);
-    
-    double* getColor();
     
     void show();
     void printPins(byte pin, byte color, int puissance);
     
     void runMotion();
+    
+  private:
+	 RGBConverter _converter;
+
+    byte       _pins[LED_COLORS];
+    double     _hsv[LED_COLORS];  // CurColor
+    t_rgbColor _rgb;  // CurColor
+    int        _puissance;
     
     t_rgbColor toColor;
     t_rgbColor fromColor;
@@ -90,16 +102,8 @@ class Led {
     unsigned long timeChange;
     boolean       transitionEnded;
     
-  private:
-    RGBConverter _converter;
-    
-    byte       _pins[ledColors];
-    double     _hsv[ledColors];  // CurColor
-    t_rgbColor _rgb;  // CurColor
-    int        _puissance;
-    
-    void hsvToRgb() { Led::hsvToRgb(Led::_hsv, Led::_rgb); };
-    void hsvToRgb(const double hsv[ledColors], t_rgbColor& rgb);
+    inline void hsvToRgb() { Led::hsvToRgb(Led::_hsv, Led::_rgb); };
+    void hsvToRgb(const double hsv[LED_COLORS], t_rgbColor& rgb);
     
     inline void rgbToHsv() { Led::rgbToHsv(Led::_rgb, Led::_hsv); };
     void rgbToHsv(const t_rgbColor rgb, double hsv[]);

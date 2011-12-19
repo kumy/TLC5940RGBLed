@@ -16,7 +16,7 @@
 #include "WProgram.h"
 #include "EffectRideau.h"
 
-EffectRideau::EffectRideau(Led leds[ledCount]) {
+EffectRideau::EffectRideau(Led leds[LED_COUNT]) {
   Effect::storeLeds(leds);
   EffectRideau::presets = 0;
   EffectRideau::onOff = TRUE;
@@ -35,7 +35,7 @@ void EffectRideau::init() {
   Effect::lastTime = 0;
   Effect::step = 0;
 
-  Effect::setSpeed(totalTime*1000000/(ledCount - 1));
+  Effect::setSpeed(totalTime*1000000/(LED_COUNT - 1));
   Effect::setPause(pauseTime*1000000);
   Effect::effectEnded = FALSE;
 
@@ -48,7 +48,7 @@ void EffectRideau::init() {
     break;
   case 1:
     Effect::print("PRESETS 1");
-    EffectRideau::startPoint = ledCount - 1;
+    EffectRideau::startPoint = LED_COUNT - 1;
     EffectRideau::trainee = 0;
     getRandomColor(EffectRideau::color);
     break;
@@ -59,7 +59,7 @@ void EffectRideau::init() {
     break;
   case 3:
     Effect::print("PRESETS 3");
-    EffectRideau::startPoint = TrueRandom.random(ledCount);
+    EffectRideau::startPoint = TrueRandom.random(LED_COUNT);
     EffectRideau::trainee = 0;
     setColor(black, EffectRideau::color);
     break;
@@ -71,13 +71,13 @@ void EffectRideau::init() {
     break;
   case 5:
     Effect::print("PRESETS 5");
-    EffectRideau::startPoint = ledCount - 1;
+    EffectRideau::startPoint = LED_COUNT - 1;
     EffectRideau::trainee = 1;
     //getRandomColor(EffectRideau::color);
     break;
   case 6:
     Effect::print("PRESETS 6");
-    EffectRideau::startPoint = TrueRandom.random(ledCount);
+    EffectRideau::startPoint = TrueRandom.random(LED_COUNT);
     EffectRideau::trainee = 1;
     break;
   case 7:
@@ -88,7 +88,7 @@ void EffectRideau::init() {
     break;
   case 8:
     Effect::print("PRESETS 8");
-    EffectRideau::startPoint = ledCount - 1;
+    EffectRideau::startPoint = LED_COUNT - 1;
     EffectRideau::trainee = 0;
     setColor(black, EffectRideau::color);
     break;
@@ -129,48 +129,24 @@ void EffectRideau::run_single () {
   } 
 
   if (!Effect::effectEnded && Effect::timeToRun(Effect::speed)) {
-    if (EffectRideau::startPoint + step - EffectRideau::trainee < ledCount) {
-      if (EffectRideau::startPoint + step < ledCount)
-        Effect::_leds[EffectRideau::startPoint + step].setColor(EffectRideau::color, min(1, (double)Effect::totalTime/ledCount)*1000000);
+    if (EffectRideau::startPoint + step - EffectRideau::trainee < LED_COUNT) {
+      if (EffectRideau::startPoint + step < LED_COUNT)
+        Effect::_leds[EffectRideau::startPoint + step].setColor(EffectRideau::color, min(1, (double)Effect::totalTime/LED_COUNT)*1000000);
       if (EffectRideau::trainee && step >= EffectRideau::trainee)
-        Effect::_leds[EffectRideau::startPoint + step -EffectRideau::trainee].setColor(black, min(1, (double)Effect::totalTime/ledCount)*1000000);
+        Effect::_leds[EffectRideau::startPoint + step -EffectRideau::trainee].setColor(black, min(1, (double)Effect::totalTime/LED_COUNT)*1000000);
     }
     if (EffectRideau::startPoint - step + EffectRideau::trainee >= 0) {
-      if (EffectRideau::startPoint - step < ledCount)
-        Effect::_leds[EffectRideau::startPoint - step].setColor(EffectRideau::color, min(1, (double)Effect::totalTime/ledCount)*1000000);
+      if (EffectRideau::startPoint - step < LED_COUNT)
+        Effect::_leds[EffectRideau::startPoint - step].setColor(EffectRideau::color, min(1, (double)Effect::totalTime/LED_COUNT)*1000000);
       if (EffectRideau::trainee && step >= EffectRideau::trainee)
-        Effect::_leds[EffectRideau::startPoint - step +EffectRideau::trainee].setColor(black, min(1, (double)Effect::totalTime/ledCount)*1000000);
+        Effect::_leds[EffectRideau::startPoint - step +EffectRideau::trainee].setColor(black, min(1, (double)Effect::totalTime/LED_COUNT)*1000000);
     }
 
     Effect::step++;
     Effect::lastTime = micros();
 
-    if (Effect::step >= ledCount + EffectRideau::trainee) {
+    if (Effect::step >= LED_COUNT + EffectRideau::trainee) {
       Effect::effectEnded = TRUE;
-      //EffectRideau::nextPreset();
-      //EffectRideau::init();
     }
   }
 }
-
-//void EffectRideau::run_double () {
-//  if (Effect::effectEnded && Effect::timeToRun(Effect::pause)) {
-//    Effect::effectEnded = FALSE;
-//  } 
-//
-//  if (!Effect::effectEnded && Effect::timeToRun(Effect::speed)) {
-//    if (EffectRideau::startPoint + step < ledCount)
-//      Effect::_leds[EffectRideau::startPoint + step].setColor(EffectRideau::color, min(1, (double)Effect::totalTime/ledCount)*1000000);
-//    if (EffectRideau::startPoint - step >= 0)
-//      Effect::_leds[EffectRideau::startPoint - step].setColor(EffectRideau::color, min(1, (double)Effect::totalTime/ledCount)*1000000);
-//
-//    Effect::step++;
-//    Effect::lastTime = micros();
-//
-//    if (Effect::step >= ledCount) {
-//      Effect::effectEnded = TRUE;
-//      EffectRideau::init();
-//    }
-//  }
-//}
-

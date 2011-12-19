@@ -18,44 +18,44 @@
 #include "libraries.h"
 
 
-void setColor(const double fromColor[ledColors], double toColor[ledColors]) {
-  for (byte col = 0; col < ledColors; ++col) {
+void setColor(const double fromColor[LED_COLORS], double toColor[LED_COLORS]) {
+  for (byte col = 0; col < LED_COLORS; ++col) {
     toColor[col] = fromColor[col];
   }
 }
 
-void setColorAll(Led leds[ledCount], const double couleur[ledColors]) {
-  for (byte led = 0; led < ledCount; ++led) {
+void setColorAll(Led leds[LED_COUNT], const double couleur[LED_COLORS]) {
+  for (byte led = 0; led < LED_COUNT; ++led) {
     leds[led].setColor(couleur);
   }
 }
 
-void setPuissanceAll(Led leds[ledCount], const byte puissance) {
-  for (byte led = 0; led < ledCount; ++led) {
+void setPuissanceAll(Led leds[LED_COUNT], const byte puissance) {
+  for (byte led = 0; led < LED_COUNT; ++led) {
     leds[led].setPuissance(puissance);
   }
 }
 
-void setColorRainbow(Led leds[ledCount], double salt) {
+void setColorRainbow(Led leds[LED_COUNT], double salt) {
 #ifdef DEBUG
   Serial.println("RAINBOW ");
 #endif
-  byte gradStep = HSV_DEFINITION / ledCount;
+  byte gradStep = HSV_DEFINITION / LED_COUNT;
 
   double hsv[] = { 
     0.5, 1, 1
   };
 
-  for (byte led = 0; led < ledCount; ++led) {
+  for (byte led = 0; led < LED_COUNT; ++led) {
     hsv[0] = (double) gradStep * led / HSV_DEFINITION + salt;
     leds[led].setColor(hsv);
   }
 }
 
 
-void render(Led leds[ledCount]) {
+void render(Led leds[LED_COUNT]) {
 
-  for (byte led = 0; led < ledCount; ++led) {
+  for (byte led = 0; led < LED_COUNT; ++led) {
     leds[led].runMotion();
     leds[led].show();
   }
@@ -63,7 +63,7 @@ void render(Led leds[ledCount]) {
   Tlc.update();
 }
 
-void getRandomColor(double randColor[ledColors]) {
+void getRandomColor(double randColor[LED_COLORS]) {
   double lastColor = randColor[0];
   while (abs(randColor[0] - lastColor) < 0.10)
   {
@@ -92,7 +92,7 @@ void printColor(const t_rgbColor color) {
 #endif
 }
 
-void printColor(const double color[ledColors]) {
+void printColor(const double color[LED_COLORS]) {
 #ifdef DEBUG
   Serial.print("(");
   Serial.print(color[0]);

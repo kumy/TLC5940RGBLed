@@ -13,39 +13,29 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef EffectRainbow_h
-#define EffectRainbow_h
-
 #include "WProgram.h"
-#include <Led.h>
-#include <Effect.h>
-#include <libraries.h>
+#include "Effect.h"
 
-class EffectRainbow : 
-public Effect {
-public:
-  inline EffectRainbow() { /* nothing*/ };
-  EffectRainbow(Led leds[ledCount]);
+void Effect::setSpeed(unsigned long  speed) {
+  Effect::speed = speed;
+}
 
-  void init();
-  void init(Led leds[ledCount]);
-  void run();
+void Effect::setPause(unsigned long  pause) {
+  Effect::pause = pause;
+}
 
-private:
+void Effect::storeLeds(Led leds[LED_COUNT]) {
+    Effect::_leds = leds;
+}
 
-  void run_rainbow ();
+boolean Effect::isEnded(){
+  return Effect::effectEnded;
+}
 
-  double color[ledColors];
-
-  //boolean onOff;
-  byte presets;
-  double salt;
-  //byte trainee;
-  byte delai;
-  byte way;
-
-  void nextPreset();
-};
+void Effect::print (const char* txt) {
+#ifdef DEBUG
+  Serial.print("Effect: ");
+  Serial.println(txt);
 #endif
-
+}
 
