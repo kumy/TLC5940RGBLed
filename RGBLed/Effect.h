@@ -27,7 +27,6 @@ class Effect {
     
     void inline init() { /*nothing*/ };
     
-    void setNext();
     void setSpeed(unsigned long speed);
     void setPause(unsigned long pause);
     
